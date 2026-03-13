@@ -100,20 +100,9 @@ function buildDiagramData(
 
 function ConnectorArrow({ id }: { id: string }) {
   const gradId = `track-grad-${id}`
-  const arrowId = `arrow-${id}`
   return (
     <svg className="diagram-connector-svg diagram-connector-svg--vertical" viewBox="0 0 24 80" preserveAspectRatio="none" aria-hidden>
       <defs>
-        <marker
-          id={arrowId}
-          markerWidth="8"
-          markerHeight="10"
-          refX="4"
-          refY="9"
-          orient="auto"
-        >
-          <polygon points="0 0, 8 0, 4 9" fill="currentColor" />
-        </marker>
         <linearGradient id={gradId} x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stopColor="var(--diagram-track-start)" />
           <stop offset="100%" stopColor="var(--diagram-track-end)" />
@@ -127,7 +116,6 @@ function ConnectorArrow({ id }: { id: string }) {
         stroke={`url(#${gradId})`}
         strokeWidth="2.5"
         strokeLinecap="round"
-        markerEnd={`url(#${arrowId})`}
       />
     </svg>
   )
