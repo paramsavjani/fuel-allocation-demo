@@ -459,36 +459,32 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 6px 16px;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 0;
   margin-bottom: 8px;
-  background: var(--diagram-card-bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  background: transparent;
   width: 100%;
 }
 
 .diagram-leg-dist {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--text-h);
 }
 
-.diagram-leg-consumption {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text);
-  background: var(--bg);
-  padding: 2px 6px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
+.diagram-leg-dot {
+  color: rgba(120, 120, 120, 0.4);
+  font-size: 14px;
 }
 
-.diagram-leg-fuel {
-  font-size: 11px;
+.diagram-leg-consumption, .diagram-leg-fuel {
+  font-size: 12px;
+  font-weight: 500;
   color: var(--text);
+  background: transparent;
+  padding: 0;
+  border: none;
 }
 
 .diagram-leg-stations {

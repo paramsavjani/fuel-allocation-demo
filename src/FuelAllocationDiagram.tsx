@@ -158,11 +158,13 @@ export function FuelAllocationDiagram({
                 <div className="diagram-leg">
                   <div className="diagram-leg-segment-info">
                     <span className="diagram-leg-dist">{legs[idx].distanceKm} km</span>
+                    <span className="diagram-leg-dot" aria-hidden> • </span>
                     <span className="diagram-leg-consumption">
                       {legs[idx].consumptionPerKm.toFixed(2)} L/km
                     </span>
+                    <span className="diagram-leg-dot" aria-hidden> • </span>
                     <span className="diagram-leg-fuel">
-                      {legs[idx].fuelLiters.toFixed(0)} L
+                      {legs[idx].fuelLiters.toFixed(0)} L used
                     </span>
                   </div>
                   <div className="diagram-leg-stations">
