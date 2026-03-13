@@ -5,6 +5,7 @@ type OptimizerOutput =
   | { success: true; stops: RefuelStop[]; totalCost: number; totalLiters: number }
   | { success: false; errors: string[] }
 import { execute } from './lib/optimizeRefuelPlan'
+import { FuelAllocationDiagram } from './FuelAllocationDiagram'
 import './App.css'
 
 let segId = 0
@@ -246,6 +247,13 @@ function App() {
                 <span>Total fuel: <strong>{result.totalLiters.toFixed(0)} L</strong></span>
                 <span>Stops: <strong>{result.stops.length}</strong></span>
               </div>
+              <FuelAllocationDiagram
+                segments={segments}
+                stations={stations}
+                totalRouteKm={totalRouteKm}
+                initialFuel={initialFuel}
+                stops={result.stops}
+              />
               {result.stops.length === 0 ? (
                 <p className="no-stops">No refuels needed — initial fuel is enough.</p>
               ) : (

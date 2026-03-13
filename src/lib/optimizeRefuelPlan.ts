@@ -8,7 +8,7 @@ import type { RefuelStop, RouteSegment, StationOnRoute } from '../types'
 
 const INF = Number.MAX_SAFE_INTEGER / 2
 
-function fuelBetweenPositions(
+export function fuelBetweenPositions(
   segments: RouteSegment[],
   posA: number,
   posB: number
