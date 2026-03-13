@@ -31,11 +31,9 @@ function buildDiagramData(
   segments: RouteSegment[],
   stations: StationOnRoute[],
   totalRouteKm: number,
-  initialFuel: number,
   stops: RefuelStop[]
 ): { nodes: DiagramNode[]; legs: DiagramLeg[] } {
   const refuelByStation = new Map(stops.map((s) => [s.stationId, s.quantityLiters]))
-  const points = [0, ...stations.map((s) => s.positionKm), totalRouteKm]
 
   const nodes: DiagramNode[] = []
   nodes.push({
@@ -44,7 +42,7 @@ function buildDiagramData(
     positionKm: 0,
     type: 'start',
   })
-  stations.forEach((st, i) => {
+  stations.forEach((st) => {
     nodes.push({
       key: st.id,
       label: st.name,
@@ -92,7 +90,6 @@ export function FuelAllocationDiagram({
     segments,
     sortedStations,
     totalRouteKm,
-    initialFuel,
     stops
   )
 
