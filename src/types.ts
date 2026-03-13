@@ -1,6 +1,7 @@
 /** One segment of the route: distance and fuel consumption rate. */
 export interface RouteSegment {
   id: string
+  name: string
   distanceKm: number
   fuelLitersPerKm: number
 }

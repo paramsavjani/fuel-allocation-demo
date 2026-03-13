@@ -56,9 +56,10 @@ function buildDiagramData(
   const nodes: DiagramNode[] = waypoints.map((posKm, i) => {
     const isStart = i === 0
     const isEnd = i === waypoints.length - 1
+    const seg = i > 0 ? segments[i - 1] : undefined
     return {
       key: `stop-${i}`,
-      label: isStart ? 'Start' : isEnd ? 'End' : `${posKm} km`,
+      label: isStart ? 'Start' : (seg?.name || (isEnd ? 'End' : `Stop ${i}`)),
       positionKm: posKm,
       type: isStart ? 'start' : isEnd ? 'end' : 'segment_stop',
       segmentIndex: isStart ? undefined : i - 1,
@@ -145,6 +146,7 @@ export function FuelAllocationDiagram({
               <div className={`diagram-node diagram-node--${node.type}`}>
                 <span className="diagram-node-dot" aria-hidden />
                 <span className="diagram-node-label">{node.label}</span>
+                <span className="diagram-node-pos">{node.positionKm} km</span>
                 {node.type === 'start' && (
                   <span className="diagram-node-meta">{initialFuel}L in tank</span>
                 )}
@@ -167,13 +169,19 @@ export function FuelAllocationDiagram({
                     {legs[idx].stationsOnLeg.length > 0 ? (
                       legs[idx].stationsOnLeg.map((st) => (
                         <div key={st.id} className="diagram-station-card">
-                          <span className="diagram-station-icon" aria-hidden>⛽</span>
-                          <span className="diagram-station-name">{st.name}</span>
-                          <span className="diagram-station-pos">at {st.positionKm} km</span>
-                          <span className="diagram-station-rate">₹{st.ratePerLiter}/L</span>
-                          {st.refuelLiters != null && st.refuelLiters > 0 && (
-                            <span className="diagram-station-refuel">+{st.refuelLiters}L</span>
-                          )}
+                          <div className="diagram-station-card-top">
+                            <div className="diagram-station-left">
+                              <span className="diagram-station-icon" aria-hidden>⛽</span>
+                              <span className="diagram-station-name">{st.name}</span>
+                            </div>
+                            <span className="diagram-station-pos">{st.positionKm} km</span>
+                          </div>
+                          <div className="diagram-station-card-bottom">
+                            <span className="diagram-station-rate">₹{st.ratePerLiter}/L</span>
+                            {st.refuelLiters != null && st.refuelLiters > 0 && (
+                              <span className="diagram-station-refuel">+{st.refuelLiters}L</span>
+                            )}
+                          </div>
                         </div>
                       ))
                     ) : (

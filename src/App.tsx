@@ -11,8 +11,8 @@ import './App.css'
 let segId = 0
 let stationId = 0
 
-function newSegment(distanceKm = 50, fuelLitersPerKm = 0.4): RouteSegment {
-  return { id: `seg-${++segId}`, distanceKm, fuelLitersPerKm }
+function newSegment(name = 'Stop', distanceKm = 50, fuelLitersPerKm = 0.4): RouteSegment {
+  return { id: `seg-${++segId}`, name, distanceKm, fuelLitersPerKm }
 }
 
 function newStation(name = 'Station', positionKm = 25, ratePerLiter = 2.5): StationOnRoute {
@@ -23,7 +23,8 @@ function newStation(name = 'Station', positionKm = 25, ratePerLiter = 2.5): Stat
 function getInitialSegments(): RouteSegment[] {
   const distances = [80, 120, 100, 110, 90]
   const rates = [0.38, 0.40, 0.39, 0.41, 0.38]
-  return distances.map((d, i) => newSegment(d, rates[i]))
+  const names = ['City A', 'City B', 'City C', 'City D', 'Destination']
+  return distances.map((d, i) => newSegment(names[i], d, rates[i]))
 }
 
 /** Initial stations: max 8, spread along the route with varying prices. */
@@ -43,10 +44,10 @@ function App() {
 
   const addSegment = useCallback(() => {
     const last = segments[segments.length - 1]
-    setSegments((prev) => [...prev, newSegment(50, last ? last.fuelLitersPerKm : 0.4)])
+    setSegments((prev) => [...prev, newSegment(`Stop ${prev.length + 1}`, 50, last ? last.fuelLitersPerKm : 0.4)])
   }, [segments])
 
-  const updateSegment = useCallback((id: string, field: 'distanceKm' | 'fuelLitersPerKm', value: number) => {
+  const updateSegment = useCallback((id: string, field: keyof RouteSegment, value: string | number) => {
     setSegments((prev) =>
       prev.map((s) => (s.id === id ? { ...s, [field]: value } : s))
     )
@@ -139,12 +140,20 @@ function App() {
             Total: <strong>{totalRouteKm.toFixed(0)} km</strong> · Fuel needed: <strong>{totalRouteFuel.toFixed(1)} L</strong>
           </p>
           <p className="help-text">
-            Each row is one stretch of road. First box is <strong>distance in km</strong>, second box is <strong>fuel used per km (L/km)</strong>.
+            Each stretch has a destination stop. First box is <strong>stop name</strong>, second is <strong>distance in km</strong>, third is <strong>fuel used per km (L/km)</strong>.
           </p>
           <div className="segment-list">
             {segments.map((seg, idx) => (
               <div key={seg.id} className="segment-row">
                 <span className="seg-num">{idx + 1}</span>
+                <input
+                  type="text"
+                  placeholder="Stop name"
+                  value={seg.name}
+                  onChange={(e) =>
+                    updateSegment(seg.id, 'name', e.target.value)
+                  }
+                />
                 <input
                   type="number"
                   min={1}
